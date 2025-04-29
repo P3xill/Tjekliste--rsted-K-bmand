@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <title>Huske-seddel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Reset og box-sizing */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+    body {
+      display: flex;
+      align-items: flex-start;      
+      justify-content: flex-start;    
+      font-family: Optima, "Helvetica Neue", Arial, sans-serif;
+      padding: 1em;
+    }
+    .container {
+      text-align: left; 
+    }
+    h1 {
+      margin: 0 0 0.5em;
+      font-size: 1.5em;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      margin: 0.5em 0;
+    }
+    input[type="checkbox"] {
+      margin-right: 0.5em;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Huske-seddel</h1>
+    <ul>
+      <li><label><input type="checkbox">Pakkescanner + cigaretter, kontor</label></li>
+      <li><label><input type="checkbox">Papmur</label></li>
+      <li><label><input type="checkbox">Lotto-skab</label></li>
+      <li><label><input type="checkbox">Bagerbrød</label></li>
+      <li><label><input type="checkbox">Ting udenfor – ind</label></li>
+      <li><label><input type="checkbox">luk ude bag ved</label></li>
+      <li><label><input type="checkbox">Tælle kasse</label></li>
+      <li><label><input type="checkbox">Sluk computeren</label></li>
+      <li><label><input type="checkbox">Time seddel</label></li>
+      <li><label><input type="checkbox">Luk ned for pakker</label></li>
+    </ul>
+    <p class="note">Opdater siden for en helt blank liste.</p>
+  </div>
+</body>
+</html>
+<!--
+  Denne HTML-kode skaber en simpel huske-seddel med en liste over opgaver, der kan afkrydses.
+  Den indeholder grundlæggende styling og layout for at gøre det brugervenligt.
+  Koden er designet til at være responsiv og fungerer på både desktop og mobile enheder.
