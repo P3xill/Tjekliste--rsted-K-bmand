@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <title>Huske-seddel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Reset og box-sizing */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; width: 100%;
+      position: relative; overflow: hidden;
+    }
+    body {
+      display: flex; align-items: flex-start; justify-content: flex-start;
+      font-family: Optima, "Helvetica Neue", Arial, sans-serif;
+      padding: 1em; background-color: #fefefe;
+    }
+    .container {
+      text-align: left; z-index: 1;
+    }
+    h1 { margin: 0 0 0.5em; font-size: 1.5em; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { margin: 0.5em 0; }
+    input[type="checkbox"] { margin-right: 0.5em; transform: scale(1.2); }
+    .note { font-size: 0.9em; color: #555; margin-top: 1em; }
+    /* Canvas for confetti */
+    #confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="container">
+    <h1>Huske-seddel</h1>
+    <ul id="checklist">
+       <li><label><input type="checkbox">Tømme skraldespande</label></li>
+      <li><label><input type="checkbox">Pakkescanner + cigaretter, kontor</label></li>
+      <li><label><input type="checkbox">Plade til cigerratskab - skubbes ind</label></li>
+      <li><label><input type="checkbox">Lotto-skab</label></li>
+      <li><label><input type="checkbox">Bagerbrød</label></li>
+      <li><label><input type="checkbox">Ting udenfor - ind</label></li>
+      <li><label><input type="checkbox">luk ude bag ved</label></li>
+      <li><label><input type="checkbox">Tælle kasse</label></li>
+      <li><label><input type="checkbox">Sluk computeren</label></li>
+      <li><label><input type="checkbox">Time seddel</label></li>
+      <li><label><input type="checkbox">Luk ned for pakker</label></li>
+      <li><label><input type="checkbox">Støvsuge gulv</label></li>
+       <li><label><input type="checkbox">Vaske gulv</label></li>
+    </ul>
+    <p class="note">Opdater siden for en helt blank liste.</p>
+  </div>
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = [];
+    const colors = ['#f94144','#f3722c','#f9c74f','#90be6d','#577590'];
+    function createParticle() {
+      return {
+        x: Math.random() * W,
+        y: -10,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * particles.length,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 10,
+        tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+        tiltAngle: 0
+      };
+    }
+    function initParticles(count) {
+      particles.length = 0;
+      for (let i = 0; i < count; i++) particles.push(createParticle());
+    }
+    let animationId;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      let angle = Date.now() / 600;
+      particles.forEach((p, i) => {
+        p.tiltAngle += p.tiltAngleIncrement;
+        p.y += (Math.cos(angle + p.d) + 3 + p.r / 2) / 2;
+        p.x += Math.sin(angle);
+        p.tilt = Math.sin(p.tiltAngle) * 15;
+        ctx.beginPath();
+        ctx.lineWidth = p.r;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+        ctx.stroke();
+      });
+      animationId = requestAnimationFrame(draw);
+    }
+
+    function startConfetti() {
+      if (canvas.style.display === 'block') return;
+      canvas.style.display = 'block';
+      initParticles(150);
+      draw();
+      // Stop after one run
+      setTimeout(() => {
+        cancelAnimationFrame(animationId);
+        ctx.clearRect(0, 0, W, H);
+        canvas.style.display = 'none';
+      }, 3000);
+    }
+
+    document.getElementById('checklist').addEventListener('change', () => {
+      const boxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+      if (Array.from(boxes).every(cb => cb.checked)) startConfetti();
+    });
+  </script>
+</body>
+</html>
+<!--
+  This is a simple checklist app with confetti animation.
+  The checklist items are hardcoded, and the confetti animation triggers when all items are checked.
+  The code uses HTML, CSS, and JavaScript to create the functionality.
